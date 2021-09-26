@@ -1,109 +1,41 @@
-#cia = '\033[1;36m'
-cl = '\033[0m'
-az = '\033[1;94m'
-cia = '\033[1;36m'
-cz = '\033[1;37m'
+__recodadoPor__:'KinyCrimson'
+cl = '\033[0m';az = '\033[1;94m';cia = '\033[1;36m';cz = '\033[1;37m'
 
-import requests
-import os
-from sys import argv, executable
-import base64
+from requests import get;from os import system, execl;from sys import argv, executable;from time import sleep
 
+def restart(): execl(executable, executable, *argv)
 
-def restart():
-    os.execl(executable, executable, *argv)
+def clear(): system('cls||clear')
 
-def Enter():
-    input("Pressione ENTER para continuar")
-    
-    restart()
+def consulta(x):
+	API={'1': ['https://ipwhois.app/json/', ('%s[%s ! %s]%s Digite o IP: '%(cia,cl,cia,cl))],'2': ['https://viacep.com.br/ws/', ('%s[%s ! %s]%s Digite o CEP: '%(cia,cl,cia,cl))],'3': ['https://www.receitaws.com.br/v1/cnpj/',('%s[%s ! %s]%s Digite o CNPJ: '%(cia,cl,cia,cl))],'4': ['https://apicarros.com/v1/consulta/',('%s[%s ! %s]%s Digite a Placa: '%(cia,cl,cia,cl))]}
+	try: api=API[x][0]
+	except: print('%s[%s X %s]%s OPÇÃO INVÁLIDA!'%(cia,cl,cia,cl));sleep(3);restart()
+	req=input(API[x][1])
+	if x in ['2','4']: req=api+req+'/json'
+	else: req=api+req
+	req=get(req, verify=False).json();clear()
+	for item in req: print(item,' : ',req[item])
+	input("%sPressione ENTER para continuar"%cia)
 
-def clear():
-    os.system('cls||clear')
-    
+def main():
+	while True:
+		clear()
+		option=str(input('''
+%s Milícia Pika de Mel
 
-def opcoes():
-    print('{}MILICIA PIKA DE MEL\033[0m'.format(cia))
-    print(' ')
-    print('\033[4;37mCRIADO POR: SWAG,MRDINIZ,SPYWARE,INTACTOX\033[0;0m')
-    print('\033[4;37mGITHUB: Swag666baby // Spyware0 // mrdiniz88\033[m')
-    print('ZAP: 556295598220')
-    print(' ')
-    print('ESCOLHA UM NÚMERO: ')
-    print(' ')
-    print('{}[{}1{}]{} CONSULTA DE CEP'.format(cl,cia,cl,cia))
-    print('{}[{}2{}]{} CONSULTA DE IP'.format(cl,cia,cl,cia))
-    print('{}[{}3{}]{} CONSULTA DE CNPJ'.format(cl,cia,cl,cia))
-    print('{}[{}4{}]{} CONSULTA DE PLACA'.format(cl,cia,cl,cia))
-    opc = input('>>>  {}'.format(cl))
+%sCriado por: Swag, MrDiniz,Spyware, Intactox%s
+%sGithub: Swag666baby || Spyware0 || mrdiniz88%s
+Zap: 556295598220
 
-    if opc == '1':
-    	Cep()
-
-    elif opc == '2':
-    	Ip()
-
-    elif opc == '3':
-    	Cnpj()
+%s[%s ! %s]%s Escolha uma opção:
     	
-    elif opc == '4':
-    	placa()
-    	
-    else:
-        restart()
+%s[%s1%s]%s Consulta de IP
+%s[%s2%s]%s Consulta de CEP
+%s[%s3%s]%s Consulta de CNPJ
+%s[%s4%s]%s Consulta de Placa
 
+>>> %s'''%(cia,'\033[4;37m', cia, '\033[4;37m', cia,cl,cia,cl,cia,cl,cia,cl,cia,cl,cia,cl,cia,cl,cia,cl,cia,cl,cia,cl,cia, cl)))
+		consulta(option)
 
-def Ip():
-    clear()
-
-    ip = input('DIGITE O IP: ')
- 
-    r = requests.get(f'https://ipwhois.app/json/{ip}')
-    data = r.json()
-    clear()
-    for item in data:
-        print(item,':', data[item])
-    Enter()
-
-
-def Cep():
-    clear()
-
-    cep = input('DIGITE O CEP: ')
-    a = requests.get(f'https://viacep.com.br/ws/{cep}/json')
-    cp = a.json()
-    clear()
-    for item in cp:
-        print(item,':', cp[item])
-    Enter()
-
-def Cnpj():
-    clear()
-    cnpj = input('DIGITE O CNPJ: ')
-	
-    b = requests.get(f'https://www.receitaws.com.br/v1/cnpj/{cnpj}')
-	
-    pj = b.json()
-    
-    clear()
-	
-    for item in pj:
-        print(item,':', pj[item])
-    Enter()
-
-def placa():
-    clear()
-    placa = input('DIGITE A PLACA: ')
-	
-    u = requests.get(f'https://apicarros.com/v1/consulta/{placa}/json', verify=False)
-	
-    pj = u.json()
-    
-    clear()
-    for item in pj:
-        print(item,':', pj[item])
-    Enter()
-
-clear()
-
-opcoes()
+if __name__ =='__main__': main()	
